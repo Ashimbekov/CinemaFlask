@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Session</title>
+</head>
+<body>
+    <h1>Delete Session</h1>
+    <p>Are you sure you want to delete this session?</p>
+    <p>ID: {{ session.idSessions }}</p>
+    <p>Duration: {{ session.Duration }}</p>
+    <p>Film: {{ session.film.FilmName }}</p>
+    <p>Hall: {{ session.hall.HallName }}</p>
+    <p>Date and Time Start: {{ session.DateAndTimeStart }}</p>
+    <form action="/delete_session/{{ session.idSessions }}" method="post">
+        <button type="submit">Delete Session</button>
+    </form>
+</body>
+</html>

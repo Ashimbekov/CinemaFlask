@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Hall</title>
+</head>
+<body>
+    <h1>Add Hall</h1>
+    <form action="/add_hall" method="post">
+        <label for="hallname">Hall Name:</label>
+        <input type="text" id="hallname" name="hallname" required><br>
+        <label for="seat">Seat:</label>
+        <input type="number" id="seat" name="seat" required><br>
+        <label for="halltype">Hall Type:</label>
+        <select id="halltype" name="halltype" required>
+            {% for halltype in halltypes %}
+                <option value="{{ halltype[0] }}">{{ halltype[1] }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit">Add Hall</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Film</title>
+</head>
+<body>
+    <h1>Delete Film</h1>
+    <p>Are you sure you want to delete "{{ film.FilmName }}"?</p>
+    <form action="/delete_film/{{ film[0] }}" method="post">
+        <button type="submit">Delete Film</button>
+    </form>
+</body>
+</html>

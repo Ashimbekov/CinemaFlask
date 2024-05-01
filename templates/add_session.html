@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Session</title>
+</head>
+<body>
+    <h1>Add Session</h1>
+    <form action="/add_session" method="post">
+        <label for="duration">Duration:</label>
+        <input type="number" id="duration" name="duration" required><br>
+        <label for="film">Film:</label>
+        <select id="film" name="film" required>
+            {% for film in films %}
+                <option value="{{ film[0] }}">{{ film[1] }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="hall">Hall:</label>
+        <select id="hall" name="hall" required>
+            {% for hall in halls %}
+                <option value="{{ hall[0] }}">{{ hall[1] }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="date">Date and Time Start:</label>
+        <input type="datetime-local" id="date" name="date" required><br>
+        <button type="submit">Add Session</button>
+    </form>
+</body>
+</html>

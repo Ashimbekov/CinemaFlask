@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Management</title>
+</head>
+<body>
+    <h1>Film Management</h1>
+    <a href="/add_film">Add Film</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Year of Issue</th>
+                <th>Director</th>
+                <th>Genre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for film in films %}
+            <tr>
+                <td>{{ film[0] }}</td>
+                <td>{{ film[1] }}</td>
+                <td>{{ film[2] }}</td>
+                <td>{{ film[3] }}</td>
+                <td>{{ film[4] }}</td>
+                <td>
+                    <a href="/update_film/{{ film[0] }}">Edit</a>
+                    <a href="/delete_film/{{ film[0] }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

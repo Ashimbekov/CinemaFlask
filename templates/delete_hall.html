@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Hall</title>
+</head>
+<body>
+    <h1>Delete Hall</h1>
+    <p>Are you sure you want to delete this hall?</p>
+    <p>ID: {{ hall[0] }}</p>
+    <p>Hall Name: {{ hall[1] }}</p>
+    <p>Seat: {{ hall[2] }}</p>
+    <p>Hall Type: {{ hall[3] }}</p>
+    <form action="/delete_hall/{{ hall[0] }}" method="post">
+        <button type="submit">Delete Hall</button>
+    </form>
+</body>
+</html>

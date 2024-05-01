@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Hall Type</title>
+</head>
+<body>
+    <h1>Update Hall Type</h1>
+    <form action="/update_halltype/{{ halltype[0] }}" method="post">
+        <label for="halltype">Hall Type:</label>
+        <input type="text" id="halltype" name="halltype" value="{{ halltype[1] }}" required><br>
+        <button type="submit">Update Hall Type</button>
+    </form>
+</body>
+</html>

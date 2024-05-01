@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Types Management</title>
+</head>
+<body>
+    <h1>Hall Types Management</h1>
+    <a href="/add_halltype">Add Hall Type</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hall Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for halltype in halltypes %}
+            <tr>
+                <td>{{ halltype[0] }}</td>
+                <td>{{ halltype[1] }}</td>
+                <td>
+                    <a href="/update_halltype/{{ halltype[0] }}">Edit</a>
+                    <a href="/delete_halltype/{{ halltype[0] }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

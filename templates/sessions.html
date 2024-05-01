@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Management</title>
+</head>
+<body>
+    <h1>Session Management</h1>
+    <a href="/add_session">Add Session</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Duration</th>
+                <th>Film</th>
+                <th>Hall</th>
+                <th>Date and Time Start</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session[0] }}</td>
+                <td>{{ session[1] }}</td>
+                <td>{{ session[2] }}</td>
+                <td>{{ session[3] }}</td>
+                <td>{{ session[4] }}</td>
+                <td>
+                    <a href="/update_session/{{ session[0] }}">Edit</a>
+                    <a href="/delete_session/{{ session[0] }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
