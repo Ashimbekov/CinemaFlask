@@ -4,27 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select,
+        input[type="number"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Book Ticket</h1>
+    <h1>Покупка билета</h1>
     <form action="/book_ticket" method="post">
-        <label for="film_id">Select Film:</label>
+        <label for="film_id">Выбрать фильм:</label>
         <select id="film_id" name="film_id">
             {% for film in films %}
                 <option value="{{ film[0] }}">{{ film[1] }}</option>
             {% endfor %}
         </select><br>
-        <label for="session_id">Select Session:</label>
+        <label for="session_id">Выбрать сеанс:</label>
         <select id="session_id" name="session_id">
             {% for session in sessions %}
-                <option value="{{ session[0] }}">{{ session[0] }}</option>
+                <option value="{{ session[0] }}">{{ session[4] }}</option>
             {% endfor %}
         </select><br>
-        <label for="user_id">User ID:</label>
-        <input type="number" id="user_id" name="user_id" required><br>
-        <label for="seat">Seat:</label>
+        <label for="user_id">Пользователь:</label>
+        <select id="user_id" name="user_id">
+            {% for user in users %}
+                <option value="{{ user[0] }}">{{ user[1] }} {{ user[2] }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="hall_type">Выбрать тип зала:</label>
+        <select id="hall_type" name="hall_type">
+            {% for hall_type in hall_types %}
+                <option value="{{ hall_type[0] }}">{{ hall_type[1] }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="seat">Место:</label>
         <input type="number" id="seat" name="seat" required><br>
-        <button type="submit">Book Ticket</button>
+        <button type="submit">Купить билет</button>
+        <label for="ticket_price_id">Оплата:</label>
+        <select id="ticket_price_id" name="ticket_price_id">
+            {% for ticket_price in ticket_prices %}
+                <option value="{{ ticket_price[0] }}">{{ ticket_price[1] }}</option>
+            {% endfor %}
+        </select><br>
     </form>
 </body>
 </html>

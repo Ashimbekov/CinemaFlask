@@ -384,13 +384,49 @@ def delete_ticket(ticket_id):
 
 
 
+# @app.route('/book_ticket', methods=['GET'])
+# def book_ticket_page():
+#     cur.execute("SELECT * FROM films")
+#     films = cur.fetchall()
+#     cur.execute("SELECT * FROM sessions")
+#     sessions = cur.fetchall()
+#     return render_template('booking.html', films=films, sessions=sessions)
+
+# @app.route('/book_ticket', methods=['GET'])
+# def book_ticket_page():
+#     cur.execute("SELECT * FROM films")
+#     films = cur.fetchall()
+#     return render_template('booking.html', films=films)
+
 @app.route('/book_ticket', methods=['GET'])
 def book_ticket_page():
     cur.execute("SELECT * FROM films")
     films = cur.fetchall()
+    # film_id = films[0]
+    # cur.execute("SELECT * FROM sessions WHERE idFilm = %s", (film_id,))
     cur.execute("SELECT * FROM sessions")
     sessions = cur.fetchall()
-    return render_template('booking.html', films=films, sessions=sessions)
+    cur.execute("SELECT idUsers, Name, Surname FROM users")  # Получаем только user_id, Name и Surname
+    users = cur.fetchall()
+    cur.execute("SELECT * FROM halltype")
+    hall_types = cur.fetchall()
+    cur.execute("SELECT * FROM ticketprices")
+    ticket_prices = cur.fetchall()
+    return render_template('booking.html', films=films, sessions=sessions, users=users, hall_types=hall_types, ticket_prices=ticket_prices)
+
+
+# @app.route('/book_ticket', methods=['GET'])
+# def book_ticket_page():
+#     cur.execute("SELECT * FROM sessions")
+#     sessions = cur.fetchall()
+#     return render_template('booking.html', sessions=sessions)
+
+# @app.route('/get_sessions_by_film', methods=['POST'])
+# def get_sessions_by_film():
+#     film_id = request.form.get('film_id')  # Получаем ID выбранного фильма из формы
+#     cur.execute("SELECT * FROM sessions WHERE idFilm = %s", (film_id,))
+#     sessions = cur.fetchall()
+#     return jsonify(sessions)
 
 @app.route('/book_ticket', methods=['POST'])
 def book_ticket():
@@ -400,6 +436,8 @@ def book_ticket():
         session_id = data['session_id']
         user_id = data['user_id']
         seat = data['seat']
+        hall_type = data['hall_type']
+        ticket_price_id = data['ticket_price_id']
         
         # Здесь вы можете добавить логику для проверки доступности места и других условий
         # Например, проверить, свободно ли место в таблице halls
@@ -412,7 +450,7 @@ def book_ticket():
         
         if hall_data:
             # Если место существует, то добавляем билет
-            cur.execute("INSERT INTO tickets (idUser, idSession) VALUES (%s, %s)", (user_id, session_id))
+            cur.execute("INSERT INTO tickets (idUser, idSession, ticketPriceId) VALUES (%s, %s, %s)", (user_id, session_id, ticket_price_id))
             conn.commit()
             return redirect('/tickets')
         else:
