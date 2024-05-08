@@ -3,9 +3,8 @@ from flask import Flask, jsonify, request, render_template, redirect
 
 app = Flask(__name__)
 
-# Connect to your PostgreSQL database
 conn = psycopg2.connect(
-    dbname="cinema",
+    dbname="cinema_db",
     user="postgres",
     password="nurik",
     host="localhost",
@@ -32,6 +31,15 @@ def get_films():
     cur.execute("SELECT * FROM films JOIN director ON films.idDirector = director.idDirector JOIN genes ON films.idGener = genes.idGenes")
     films = cur.fetchall()
     return render_template('films.html', films=films)
+
+# @app.route('/add_film', methods=['GET', 'POST'])
+# def add_film():
+#     if request.method == 'POST':
+#         data = request.form
+#         cur.execute("INSERT INTO films (FilmName, YearOfIssue, idDirector, idGener) VALUES (%s, %s, %s, %s)", (data['name'], data['year'], data['director'], data['genre']))
+#         conn.commit()
+#         return redirect('/films')
+#     return render_template('add_film.html')
 
 @app.route('/add_film', methods=['GET', 'POST'])
 def add_film():
@@ -73,7 +81,7 @@ def get_halltypes():
 def add_halltype():
     if request.method == 'POST':
         data = request.form
-        cur.execute("INSERT INTO halltype (HallType) VALUES (%s)", (data['halltype'],))
+        cur.execute("INSERT INTO halltype (halltype) VALUES (%s)", (data['halltype'],))
         conn.commit()
         return redirect('/halltypes')
     return render_template('add_halltype.html')
@@ -398,6 +406,13 @@ def delete_ticket(ticket_id):
 #     films = cur.fetchall()
 #     return render_template('booking.html', films=films)
 
+@app.route('/')
+def index():
+    cur.execute("SELECT * FROM films")
+    films = cur.fetchall()
+    cur.close()
+    return render_template('index.html', films=films)
+
 @app.route('/book_ticket', methods=['GET'])
 def book_ticket_page():
     cur.execute("SELECT * FROM films")
@@ -406,7 +421,7 @@ def book_ticket_page():
     # cur.execute("SELECT * FROM sessions WHERE idFilm = %s", (film_id,))
     cur.execute("SELECT * FROM sessions")
     sessions = cur.fetchall()
-    cur.execute("SELECT idUsers, Name, Surname FROM users")  # Получаем только user_id, Name и Surname
+    cur.execute("SELECT idUsers, Name, Surname FROM users")
     users = cur.fetchall()
     cur.execute("SELECT * FROM halltype")
     hall_types = cur.fetchall()
@@ -423,7 +438,7 @@ def book_ticket_page():
 
 # @app.route('/get_sessions_by_film', methods=['POST'])
 # def get_sessions_by_film():
-#     film_id = request.form.get('film_id')  # Получаем ID выбранного фильма из формы
+#     film_id = request.form.get('film_id')  
 #     cur.execute("SELECT * FROM sessions WHERE idFilm = %s", (film_id,))
 #     sessions = cur.fetchall()
 #     return jsonify(sessions)
@@ -439,25 +454,37 @@ def book_ticket():
         hall_type = data['hall_type']
         ticket_price_id = data['ticket_price_id']
         
-        # Здесь вы можете добавить логику для проверки доступности места и других условий
-        # Например, проверить, свободно ли место в таблице halls
-
-        # Используем запрос к halls для выбора места
-        conn.rollback()  # Откат текущей транзакции
-        conn.autocommit = True  # Включить автокоммит для начала новой транзакции
+        conn.rollback()  
+        conn.autocommit = True 
         cur.execute("SELECT * FROM halls WHERE idHalls = %s", (seat))
         hall_data = cur.fetchone()
+
         
         if hall_data:
-            # Если место существует, то добавляем билет
             cur.execute("INSERT INTO tickets (idUser, idSession, ticketPriceId) VALUES (%s, %s, %s)", (user_id, session_id, ticket_price_id))
             conn.commit()
             return redirect('/tickets')
         else:
-            # Если место не найдено, вернем сообщение об ошибке или выполним другие действия
-            return "Место не найдено или уже занято"  # Ваше сообщение об ошибке или действие по вашему усмотрению
+            return "Место не найдено или уже занято"  
 
-# Подумать над местом, как решать проблему с выбором
+
+
+@app.route('/films/<int:film_id>')
+def show_film_info(film_id):
+    with conn.cursor() as cur:
+        cur.execute("""
+            SELECT f.FilmName, f.YearOfIssue, d.DirectorsName, g.GenerName, fi.image_url, fd.description, r.Rating
+            FROM films f
+            JOIN director d ON f.idDirector = d.idDirector
+            JOIN genes g ON f.idGener = g.idGenes
+            LEFT JOIN film_images fi ON f.idFilms = fi.film_id
+            LEFT JOIN film_descriptions fd ON f.idFilms = fd.film_id
+            LEFT JOIN rating r ON f.idFilms = r.idFilm
+            WHERE f.idFilms = %s
+        """, (film_id,))
+        film_info = cur.fetchone()
+    return render_template('film_info.html', film_info=film_info)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

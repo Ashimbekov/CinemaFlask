@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать</h1>
+        <h2>Список фильмов</h2>
+        <ul>
+            {% for film in films %}
+                <li><a href="/films/{{ film[0] }}">{{ film[1] }}</a></li>
+            {% endfor %}
+        </ul>
+        <h2>Действия</h2>
+        <ul>
+            <li><a href="/book_ticket">Бронь билета</a></li>
+            <li><a href="/films">Добавление нового фильма</a></li>
+            <li><a href="/users">Добавление нового пользователя</a></li>
+            <li><a href="/halls">Добавление нового холла</a></li>
+            <li><a href="/halltypes">Добавление нового типов холлов</a></li>
+            <li><a href="/sessions">Добавление новых сессий</a></li>
+            <li><a href="/ticket_prices">Добавление цен</a></li>
+            <li><a href="/tickets">Билеты</a></li>
+        </ul>
+    </div>
+</body>
+</html>

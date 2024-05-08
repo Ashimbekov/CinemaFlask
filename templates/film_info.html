@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ film_info[0] }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+        }
+        .rating p {
+            margin-right: 5px;
+        }
+        .stars {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ film_info[0] }}</h1>
+        <p><strong>Дата выхода:</strong> {{ film_info[1] }}</p>
+        <p><strong>Режиссер:</strong> {{ film_info[2] }}</p>
+        <p><strong>Жанр:</strong> {{ film_info[3] }}</p>
+        
+        {% if film_info[6] %}
+        <div class="rating">
+            <p>Рейтинг:</p>
+            <p class="stars">{{ film_info[6] }}</p>
+        </div>
+        {% endif %}
+        
+        {% if film_info[4] %}
+        <img src="{{ film_info[4] }}" alt="Изображение фильма">
+        {% endif %}
+        
+        {% if film_info[5] %}
+        <h2>Описание</h2>
+        <p>{{ film_info[5] }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
